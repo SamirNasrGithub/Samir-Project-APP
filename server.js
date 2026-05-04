@@ -8,7 +8,13 @@ const app = express();
 const client = new Anthropic();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+const publicDir = path.join(__dirname, 'public');
+app.use(express.static(publicDir));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(publicDir, 'index.html'));
+});
 
 app.post('/api/chat', async (req, res) => {
   const { messages } = req.body;
